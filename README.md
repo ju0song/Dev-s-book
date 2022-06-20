@@ -16,15 +16,30 @@
 
 4) 서브페이지 - 알라딘 주문 링크 연결
 
-# 4. [와이어 프레임]
-![image](https://user-images.githubusercontent.com/107523641/174566361-2d62efcd-8a78-4f0d-b3b1-400fb3b60596.png)
+# 4. [역할분담]
 
-# 5. [개발해야하는 기능들]
+-형 석 : 리뷰 작성
+
+-주 영 : 로그인, 회원 가입
+
+-소 현:   주문하기
+
+-호 영: 메인 페이지
+
+# 5. [와이어 프레임]
+![KakaoTalk_20220620_205113048](https://user-images.githubusercontent.com/107523641/174595784-5da44ef8-4ad3-4573-aa05-77f9092f8a0d.png)
+
+ 회원가입 페이지
+
+![캡처](https://user-images.githubusercontent.com/107523641/174597995-5ef5b894-701e-4638-b13d-2c36cc835399.PNG)
+
+
+# 6. [개발해야하는 기능들]
 
 
  |기능|method|url|request|respeonse|
 |------|------|--------|-------------------|-------------|
-|회원가입|POST|/signup|{'id':id,'p w':pw,'email':email, 'tell':tell,'pwcheck':pwcheck}|가입완료|
-|로그인|POST|/login|	{'id':id,'p w':pw,}|로그인완료|
-|댓글|POST|/review|{'comment':comment}|작성완료|
-|크롤링|GET|/books|{'books':books}||
+|회원가입|POST|/signup|{"id":"id","p w":"pw", "email":"email", "tell":"tell","pwcheck":"pwcheck"}|가입완료|
+|로그인|POST|/login|	{"id":"id","pw":"pw"}|로그인완료|
+|댓글|POST|/review|{"comment":"comment"}|작성완료|
+|메인페이지|GET|/books|{"books":"books"}||
