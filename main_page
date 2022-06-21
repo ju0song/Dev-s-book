@@ -6,169 +6,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
     <title>Dev's book</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         * {
-        font-family: 'Gowun Dodum', sans-serif;
-}
-         .mytitle{
+            font-family: 'Gowun Dodum', sans-serif;
+        }
 
-             height: 250px;
-             width:100%;
+        .mytitle {
 
-             background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1590&q=80");
-             background-position: center;
-             background-size: cover;
+            height: 250px;
+            width: 100%;
 
-             color:yellowgreen;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1590&q=80");
+            background-position: center;
+            background-size: cover;
 
-             display: flex;
-             flex-direction: column;
-             justify-content: center;
-             align-items: center;
-         }
+            color: yellowgreen;
 
-         .mytitle > h1
-                { text-align: center
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-         }
-         .mytitle > button {
-             width: 100px;
-             text-align: center;
-             height: 50px;
-             background-color: transparent;
-             color: yellowgreen;
-             border: 1px solid yellowgreen;
-             margin-top: 10px;
-             margin-bottom: 10px;
-             margin-left: 70%;
-             display: inline-block;
-         }
+        .mytitle > h1 {
+            text-align: center
 
-         .mytitle > button:hover {
-             border: 2px solid yellowgreen;
-         }
-         .login{
-             width: 200px;
-             font-size: 15px;
-             display: flex;
-             flex-direction: column;
+        }
 
-         }
-         .book-list{
-             width: 70%;
-             height: 100%;
-             border : 3px solid yellowgreen;
+        .mytitle > button {
+            width: 100px;
+            text-align: center;
+            height: 50px;
+            background-color: transparent;
+            color: yellowgreen;
+            border: 1px solid yellowgreen;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 70%;
+            display: inline-block;
+        }
 
-         }
-         .middle{
-             display: flex;
-         }
+        .mytitle > button:hover {
+            border: 2px solid yellowgreen;
+        }
+
+        .login {
+            width: 200px;
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .book-list {
+            width: 100%;
+            padding-left: 20px;
+            border: 3px solid yellowgreen;
+            display: flex;
+
+        }
+
+
+        .middle {
+            display: flex;
+        }
+
 
     </style>
     <script>
-        $(document).ready(function () {
-            listing();
-        });
 
-        function listing() {
-            $.ajax({
-              type: "GET",
-              url:'/booklist',
-              data: {},
-              success: function(response){
-                  let rows = response['devsbook']
-                  for ( let i = 0; i < rows.length; i++) {
-                      let booktitle = rows[i]['booktitle']
-                      let price = rows[i]['price']
-                      let image = rows[i]['image']
+        function Click_bestseller_button() {
+            $('#front_box').addClass('is-hidden')
+            $('#best_box').removeClass('is-hidden')
+            $('#back_box').addClass('is-hidden')
+        }
 
-                      let temp_html= `<div class="col">
-                                        <div class="card">
-                                          <img src="${image}" class="card-img-top" alt="...">
-                                          <div class="card-body">
-                                            <h5 class="card-title">${booktitle}</h5>
-                                            <p class="card-text">${price}</p>
-                                          </div>
-                                        </div>
-                                      </div>`
-                      $('#cards-box').append(temp_html)
+        function Click_front_button() {
+            $('#front_box').removeClass('is-hidden')
+            $('#best_box').addClass('is-hidden')
+            $('#back_box').addClass('is-hidden')
+        }
 
-                  }
-
-              }
-            })
+        function Click_back_button() {
+            $('#front_box').addClass('is-hidden')
+            $('#best_box').addClass('is-hidden')
+            $('#back_box').removeClass('is-hidden')
         }
 
     </script>
 </head>
 
 <body>
- <div class="mytitle">
-     <h1 class="h1" onclick="location.href='/'"> 📚Dev's BOOK📚</h1>
-     <button onclick="location.href='/Front_page'">F.E </button>
-     <button onclick="location.href='/back_page'">B.E </button>
-     <button onclick="open_box()">Community </button>
- </div>
- <div class="middle">
- <div class ="login">
-      <br>
-      <br>
-<button class="button is-black">Dev's BOOK 로그인</button>
-<button class="button is-ghost">Dev's BOOK 회원가입</button>
- </div>
- <div class = "book-list">
-     <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
-         <div class="col">
-             <div class="card">
-                 <img src="..." class="card-img-top" alt="...">
-                 <div class="card-body">
-                     <h5 class="card-title">Card title</h5>
-                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                         additional content. This content is a little bit longer.</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col">
-             <div class="card">
-                 <img src="..." class="card-img-top" alt="...">
-                 <div class="card-body">
-                     <h5 class="card-title">Card title</h5>
-                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                         additional content. This content is a little bit longer.</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col">
-             <div class="card">
-                 <img src="..." class="card-img-top" alt="...">
-                 <div class="card-body">
-                     <h5 class="card-title">Card title</h5>
-                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                         additional content.</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col">
-             <div class="card">
-                 <img src="..." class="card-img-top" alt="...">
-                 <div class="card-body">
-                     <h5 class="card-title">Card title</h5>
-                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                         additional content. This content is a little bit longer.</p>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+<div class="mytitle">
+    <h1 class="h1" onclick="location.href='/'"> 📚Dev's BOOK📚</h1>
+    <button onclick="Click_bestseller_button()">bestseller</button>
+    <button onclick="Click_front_button()">F.E</button>
+    <button onclick="Click_back_button()">B.E</button>
+    <button onclick="open_box()">Community</button>
+</div>
+<div class="middle">
+    <div class="login">
+        <br>
+        <br>
+        <button class="button is-black">Dev's BOOK 로그인</button>
+        <button class="button is-ghost">Dev's BOOK 회원가입</button>
+    </div>
+    <div class="book-list">
+        <div class = "best_box" id="best_box">
+        {% for bestseller_book in bestseller_list %}
+            {% set booktitle = bestseller_book['booktitle'] %}
+            {% set price = bestseller_book['price'] %}
+            {% set image = bestseller_book['image'] %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card">
+                    <img src={{image}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{booktitle}}</h5>
+                        <p class="card-text">{{price}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+
+        <div class="front_box is-hidden" id="front_box">
+        {% for front_book in front_list %}
+            {% set booktitle = front_book['booktitle'] %}
+            {% set price = front_book['price'] %}
+            {% set image = front_book['image'] %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card">
+                    <img src={{image}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{booktitle}}</h5>
+                        <p class="card-text">{{price}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+
+        <div class ="back_box is-hidden" id="back_box">
+        {% for back_book in back_list %}
+            {% set booktitle = back_book['booktitle'] %}
+            {% set price = back_book['price'] %}
+            {% set image = back_book['image'] %}
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="back_box">
+            <div class="col">
+                <div class="card">
+                    <img src={{image}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{booktitle}}}</h5>
+                        <p class="card-text">{{price}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
 </div>
 </body>
 
