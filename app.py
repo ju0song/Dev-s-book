@@ -103,7 +103,7 @@ def comment_done():
 @app.route("/comment", methods=["GET"])
 def comment_get():
     comment_list = list(db.comment.find({}, {'_id': False}))
-    return jsonify({'comments':comment_list})
+    return jsonify({'comments': comment_list})
 
 
 
