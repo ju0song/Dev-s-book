@@ -61,6 +61,7 @@ for back_book in back_books:
     }
     db.devsbook_back.insert_one(doc)
 
+
 #메인페이지, jinja2
 @app.route('/', methods=["GET"])
 def main_page():
@@ -70,6 +71,40 @@ def main_page():
     return render_template('main_page.html',
                            bestseller_list=bestseller_list, front_list=front_list, back_list=back_list
                            )
+#의견달기
+@app.route('/')
+def home():
+   return render_template('main_page.html')
+
+@app.route("/comment", methods=["POST"])
+def comment_post():
+    comment_receive = request.form['comment_give']
+
+    comment_list = list(db.comment.find({}, {'_id': False}))
+    count = len(comment_list) + 1
+
+    doc = {
+        'num': count,
+        'bucket': comment_receive,
+        'done': 0
+    }
+
+    db.comment.insert_one(doc)
+
+    return jsonify({'msg': '저장 완료!'})
+
+
+@app.route("/comment/done", methods=["POST"])
+def comment_done():
+    num_receive = request.form['num_give']
+    db.comment.update_one({'num' : int(num_receive)}, {'$set': {'done': 1}})
+    return jsonify({'msg': '삭제 완료!'})
+
+@app.route("/comment", methods=["GET"])
+def comment_get():
+    comment_list = list(db.comment.find({}, {'_id': False}))
+    return jsonify({'comments':comment_list})
+
 
 
 if __name__ == '__main__':
