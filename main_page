@@ -64,22 +64,16 @@
             font-size: 15px;
             display: flex;
             flex-direction: column;
-
         }
 
         .book-list {
-            width: 100%;
-            padding-left: 20px;
             border: 3px solid yellowgreen;
-            display: flex;
-
         }
 
 
         .middle {
-            display: flex;
+            display:flex;
         }
-
 
     </style>
     <script>
@@ -121,61 +115,63 @@
         <button class="button is-ghost">Dev's BOOK 회원가입</button>
     </div>
     <div class="book-list">
-        <div class = "best_box" id="best_box">
-        {% for bestseller_book in bestseller_list %}
-            {% set booktitle = bestseller_book['booktitle'] %}
-            {% set price = bestseller_book['price'] %}
-            {% set image = bestseller_book['image'] %}
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card">
-                    <img src={{image}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{booktitle}}</h5>
-                        <p class="card-text">{{price}}</p>
+        <div class="best_box" id="best_box">
+            {% for bestseller_book in bestseller_list %}
+                {% set booktitle = bestseller_book['booktitle'] %}
+                {% set price = bestseller_book['price'] %}
+                {% set image = bestseller_book['image'] %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <img src={{ image }} class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ booktitle }}</h5>
+                                <p class="card-text">{{ price }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endfor %}
+                <br>
+            {% endfor %}
+
         </div>
 
         <div class="front_box is-hidden" id="front_box">
-        {% for front_book in front_list %}
-            {% set booktitle = front_book['booktitle'] %}
-            {% set price = front_book['price'] %}
-            {% set image = front_book['image'] %}
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card">
-                    <img src={{image}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{booktitle}}</h5>
-                        <p class="card-text">{{price}}</p>
+            {% for front_book in front_list %}
+                {% set booktitle = front_book['booktitle'] %}
+                {% set price = front_book['price'] %}
+                {% set image = front_book['image'] %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <img src={{ image }} class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ booktitle }}</h5>
+                                <p class="card-text">{{ price }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
         </div>
 
-        <div class ="back_box is-hidden" id="back_box">
-        {% for back_book in back_list %}
-            {% set booktitle = back_book['booktitle'] %}
-            {% set price = back_book['price'] %}
-            {% set image = back_book['image'] %}
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="back_box">
-            <div class="col">
-                <div class="card">
-                    <img src={{image}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{booktitle}}}</h5>
-                        <p class="card-text">{{price}}</p>
+        <div class="back_box is-hidden" id="back_box">
+            {% for back_book in back_list %}
+                {% set booktitle = back_book['booktitle'] %}
+                {% set price = back_book['price'] %}
+                {% set image = back_book['image'] %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <img src={{ image }} class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ booktitle }}}</h5>
+                                <p class="card-text">{{ price }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
