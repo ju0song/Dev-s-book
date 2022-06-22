@@ -85,7 +85,7 @@ def comment_post():
 
     doc = {
         'num': count,
-        'bucket': comment_receive,
+        'comment': comment_receive,
         'done': 0
     }
 
@@ -97,7 +97,7 @@ def comment_post():
 @app.route("/comment/done", methods=["POST"])
 def comment_done():
     num_receive = request.form['num_give']
-    db.comment.update_one({'num' : int(num_receive)}, {'$set': {'done': 1}})
+    db.comment.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
     return jsonify({'msg': '삭제 완료!'})
 
 @app.route("/comment", methods=["GET"])
