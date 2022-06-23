@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <title>Dev's book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+        a{
+            color: inherit;
+        }
+
+        /*main background box*/
+        .mytitle {
+            height: 250px;
+            width: 100%;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1590&q=80");
+            background-position: center;
+            background-size: cover;
+            color: yellowgreen;
+            text-align: center;
+        }
+        /*title*/
+        .mytitle h1 a {
+            font-size: 60px;
+            font-weight: 700;
+            text-align: center;
+            color: yellowgreen;
+            line-height: 190px;
+        }
+        /*menu*/
+        .mytitle .nav-bar button {
+            width: 150px;
+            height: 50px;
+            font-size: 22px;
+            font-weight: 500;
+            overflow: hidden;
+            text-align: center;
+            background-color: transparent;
+            color: yellowgreen;
+            border: 2px solid yellowgreen;
+            float: right;
+            margin: 0px 10px;
+        }
+        .mytitle .nav-bar button:hover {
+            border: 2px solid greenyellow;
+        }
+
+        /*section box*/
+        .book-list{
+            width: 100%;
+            overflow: hidden;
+
+        }
+        .best_box, .front_box, .back_box{
+            width: 99%;
+            overflow: hidden;
+            border: 3px solid yellowgreen;
+            overflow: hidden
+            text-align: center;
+            line-height: 0.1px;
+            margin-top: 10px;
+            padding-left: 100px;
+            margin-left: 10px;
+        }
+
+        .card{
+            width: 230px;
+            overflow: hidden;
+            height: 420px;
+            float: left;
+            display: inline-block;
+            margin: 30px 20px;
+            text-align: center;
+
+
+        }
+
+        .card-body{
+            width: 100%;
+            height: 100px;
+        }
+        .card img{
+            width: 100%;
+            height: 300px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            padding-bottom: 10px;
+        }
+
+
+        mypic > h1 {
+            font-size: 60px;
+            font-weight: 600;
+            text-align: center;
+            margin: 40px 0px;
+            color: yellowgreen;
+        }
+
+        .mybox {
+            width: 60%;
+            padding: 20px 20px 20px 20px;
+            box-shadow: 0 0 10px 0 gray;
+            margin: 30px auto;
+        }
+
+
+        .mycomment > input {
+            width: 70%;
+        }
+
+        .mycomment {
+            display: flex;
+            flex-direction: row;
+            justify-content: 0px;
+            align-items: center;
+
+            padding: 0px 0px 0px 0px;
+        }
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox > li > h2 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+
+        .mybox > li > h2.done {
+            text-decoration: line-through
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            show_comment();
+            if(sessionStorage.getItem("reload_comment")==="1"){
+                Click_community()
+                sessionStorage.clear()
+            }
+        });
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/comment",
+                data: {},
+                success: function (response){
+                    let rows = response['comments']
+                    for (let i = 0; i < rows.length; i++) {
+                        let comment = rows[i]['comment']
+                        let num = rows[i]['num']
+                        let done = rows[i]['done']
+
+                        let temp_html = ``
+                        if (done == 0) {
+                            temp_html = `<li>
+                                            <h2> 📚${comment}</h2>
+                                            <button onclick="done_comment(${num})" type="button" class="btn btn-outline-primary">삭제</button>
+                                        </li>`
+                        }
+                        $('#comment-list').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function save_comment() {
+            let comment = $('#comment').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {comment_give: comment},
+                success: function (response) {
+                    alert(response["msg"])
+                    sessionStorage.setItem("reload_comment","1")
+                    window.location.reload()
+                }
+            });
+        }
+
+        function done_comment(num) {
+            $.ajax({
+                type: "POST",
+                url: "/comment/done",
+                data: {num_give: num},
+                success: function (response) {
+                    sessionStorage.setItem("reload_comment","1")
+                    window.location.reload()
+                    alert(response["msg"])
+                }
+            });
+        }
+
+        function Click_bestseller_button() {
+            $('#front_box').addClass('is-hidden')
+            $('#best_box').removeClass('is-hidden')
+            $('#back_box').addClass('is-hidden')
+            $('#community_box').addClass('is-hidden')
+        }
+
+        function Click_front_button() {
+            $('#front_box').removeClass('is-hidden')
+            $('#best_box').addClass('is-hidden')
+            $('#back_box').addClass('is-hidden')
+            $('#community_box').addClass('is-hidden')
+        }
+
+        function Click_back_button() {
+            $('#front_box').addClass('is-hidden')
+            $('#best_box').addClass('is-hidden')
+            $('#back_box').removeClass('is-hidden')
+            $('#community_box').addClass('is-hidden')
+        }
+
+        function Click_community() {
+            $('#front_box').addClass('is-hidden')
+            $('#best_box').addClass('is-hidden')
+            $('#back_box').addClass('is-hidden')
+            $('#community_box').removeClass('is-hidden')
+        }
+
+    </script>
+</head>
+
+<body>
+<div class="mytitle">
+    <h1><a href="http://localhost:5000"> 📚Dev's BOOK📚</a></h1>
+    <div class="nav-bar">
+        <ul>
+            <li><button onclick="Click_bestseller_button()">bestseller</button></li>
+            <li><button onclick="Click_front_button()">F.E</button></li>
+            <li><button onclick="Click_back_button()">B.E</button></li>
+            <li><button onclick="Click_community()">Community</button></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="book-list">
+        <div class="best_box" id="best_box">
+            {% for bestseller_book in bestseller_list %}
+                {% set booktitle = bestseller_book['booktitle'] %}
+                {% set price = bestseller_book['price'] %}
+                {% set image = bestseller_book['image'] %}
+                    <div class="col">
+                        <div class="card">
+                            <a href="http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=33&range=0&kind=1&orderClick=DCb">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                <br>
+            {% endfor %}
+
+        </div>
+
+        <div class="front_box is-hidden" id="front_box">
+            {% for front_book in front_list %}
+                {% set booktitle = front_book['booktitle'] %}
+                {% set price = front_book['price'] %}
+                {% set image = front_book['image'] %}
+
+                    <div class="col">
+                        <div class="card">
+                            <a href="https://search.kyobobook.co.kr/web/search?vPstrKeyWord=react&searchPcondition=1&searchCategory=%EA%B5%AD%EB%82%B4%EB%8F%84%EC%84%9C@KORBOOK@@%EC%BB%B4%ED%93%A8%ED%84%B0/IT@33&collName=KORBOOK&from_CollName=%EC%A0%84%EC%B2%B4@UNION&vPstrTab=PRODUCT&from_coll=KORBOOK&currentPage=1&orderClick=LIZ">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+            {% endfor %}
+        </div>
+
+        <div class="back_box is-hidden" id="back_box">
+            {% for back_book in back_list %}
+                {% set booktitle = back_book['booktitle'] %}
+                {% set price = back_book['price'] %}
+                {% set image = back_book['image'] %}
+
+                    <div class="col">
+                        <div class="card">
+                            <a href="https://search.kyobobook.co.kr/web/search?vPstrKeyWord=spring&searchPcondition=1&searchCategory=%EA%B5%AD%EB%82%B4%EB%8F%84%EC%84%9C@KORBOOK@@%EC%BB%B4%ED%93%A8%ED%84%B0/IT@33&collName=KORBOOK&from_CollName=%EC%A0%84%EC%B2%B4@UNION&searchOrder=0&vPstrTab=PRODUCT&from_coll=KORBOOK&currentPage=1&orderClick=LIZ">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+            {% endfor %}
+        </div>
+
+        <div class="community_box is-hidden" id="community_box">
+            <div class="mypic">
+                <h1>community</h1>
+            </div>
+            <div class="mybox">
+                <div class="mycomment">
+                    <input id="comment" class="form-control" type="text" placeholder="책을 추천해 주세요.">
+                    <button onclick="save_comment()" type="button" class="btn btn-outline-success" style="margin-left: 23px;">작성</button>
+                </div>
+            </div>
+            <div class="mybox" id="comment-list">
+            </div>
+        </div>
+</div>
+
+</body>
+
+</html>
