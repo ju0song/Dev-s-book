@@ -86,7 +86,12 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        return render_template('index.html')
+        bestseller_list = list(db.devsbook_bestseller.find({}, {'_id': False}))
+        front_list = list(db.devsbook_front.find({}, {'_id': False}))
+        back_list = list(db.devsbook_back.find({}, {'_id': False}))
+        return render_template('main_page.html',
+                               bestseller_list=bestseller_list, front_list=front_list, back_list=back_list
+                               )
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -127,7 +132,7 @@ def sign_in():
             'id': username_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
@@ -205,21 +210,7 @@ def update_like():
         return redirect(url_for("home"))
 
 
-# 메인페이지, jinja2
-@app.route('/main', methods=["GET"])
-def main_page():
-    bestseller_list = list(db.devsbook_bestseller.find({}, {'_id': False}))
-    front_list = list(db.devsbook_front.find({}, {'_id': False}))
-    back_list = list(db.devsbook_back.find({}, {'_id': False}))
-    return render_template('main_page.html',
-                           bestseller_list=bestseller_list, front_list=front_list, back_list=back_list
-                           )
 
-
-# 의견달기
-@app.route('/main')
-def homework():
-    return render_template('main_page.html')
 
 
 @app.route("/comment", methods=["POST"])
