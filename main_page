@@ -16,10 +16,14 @@
     <title>Dev's book</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
-        * {
+                * {
             font-family: 'Gowun Dodum', sans-serif;
         }
+        a{
+            color: inherit;
+        }
 
+        /*main background box*/
         .mytitle {
             height: 250px;
             width: 100%;
@@ -27,65 +31,100 @@
             background-position: center;
             background-size: cover;
             color: yellowgreen;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .mytitle > h1 {
-            text-align: center
-        }
-
-        .mytitle > button {
-            width: 100px;
             text-align: center;
+        }
+        /*title*/
+        .mytitle h1 a {
+            font-size: 60px;
+            font-weight: 700;
+            text-align: center;
+            color: yellowgreen;
+            line-height: 190px;
+        }
+        /*menu*/
+        .mytitle .nav-bar button {
+            width: 150px;
             height: 50px;
+            font-size: 22px;
+            font-weight: 500;
+            overflow: hidden;
+            text-align: center;
             background-color: transparent;
             color: yellowgreen;
-            border: 1px solid yellowgreen;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 70%;
-            display: inline-block;
+            border: 2px solid yellowgreen;
+            float: right;
+            margin: 0px 10px;
         }
-
-        .mytitle > button:hover {
+        .mytitle .nav-bar button:hover {
             border: 2px solid yellowgreen;
         }
 
-        .login {
-            width: 200px;
-            font-size: 15px;
-            display: flex;
-            flex-direction: column;
-        }
+        /*section box*/
+        .book-list{
+           width: 100%;
+            overflow: hidden;
 
-        .book-list {
-            width: 100%;
-            padding-left: 20px;
+        }
+        .best_box, .front_box, .back_box{
+            width: 99%;
+            overflow: hidden;
             border: 3px solid yellowgreen;
-            display: flex;
+            overflow: hidden;
+            text-align: center;
+            line-height: 0.1px;
+            margin-top: 10px;
+            padding-left: 100px;
+            margin-left: 10px;
+        }
+
+        .card{
+            width: 230px;
+            overflow: hidden;
+            height: 420px;
+            float: left;
+            display: inline-block;
+            margin: 30px 20px;
+            text-align: center;
+
+        }
+
+        .card-body{
+            width: 100%;
+            height: 100px;
+        }
+        .card img{
+            width: 100%;
+            height: 300px;
+        }
+        .card-title{
+            font-size: 18px;
+            font-weight: 800;
+            padding-bottom: 10px;
         }
 
 
-        .middle {
-            display: flex;
-        }
 
 
         .mypic > h1 {
-            font-size: 30px;
+            font-size: 60px;
+            font-weight: 600;
+            text-align: center;
+            margin: 40px 0px;
+            color: yellowgreen;
         }
 
         .mybox {
-            width: 95%;
-            max-width: 700px;
-            padding: 20px;
+            width: 60%;
+            padding: 20px 20px 20px 20px;
             box-shadow: 0 0 10px 0 gray;
-            margin: 20px auto;
+            margin: 30px auto;
         }
-
+        .mycomment {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0px 0px 0px 0px;
+        }
 
         .mycomment > input {
             width: 70%;
@@ -113,12 +152,18 @@
             text-decoration: line-through
         }
 
+
     </style>
 
     <script>
-        {##댓글 작성 ajax##}
+
+
         $(document).ready(function () {
             show_comment();
+            if (sessionStorage.getItem("reload_comment") === "1") {
+                Click_community()
+                sessionStorage.clear()
+            }
         });
 
         function show_comment() {
@@ -137,7 +182,7 @@
                         if (done == 0) {
                             temp_html = `<li>
                                             <h2> 📚${comment}</h2>
-                                            <button onclick="done_comment(${num})" type="button" class="btn btn-outline-primary">삭제</button>
+                                            <button onclick="done_comment(${num})" type="button" class="btn btn-outline-success">삭제</button>
                                         </li>`
                         }
                         $('#comment-list').append(temp_html)
@@ -145,7 +190,7 @@
                 }
             });
         }
-        {##댓글 저장 ajax##}
+
         function save_comment() {
             let comment = $('#comment').val()
 
@@ -155,6 +200,7 @@
                 data: {comment_give: comment},
                 success: function (response) {
                     alert(response["msg"])
+                    sessionStorage.setItem("reload_comment", "1")
                     window.location.reload()
                 }
             });
@@ -166,12 +212,13 @@
                 url: "/comment/done",
                 data: {num_give: num},
                 success: function (response) {
-                    alert(response["msg"])
+                    sessionStorage.setItem("reload_comment", "1")
                     window.location.reload()
+                    alert(response["msg"])
                 }
             });
         }
-        {##교보문고 크롤링 ajax##}
+
         function Click_bestseller_button() {
             $('#front_box').addClass('is-hidden')
             $('#best_box').removeClass('is-hidden')
@@ -205,34 +252,34 @@
 
 <body>
 <div class="mytitle">
-    <h1 class="h1" onclick="location.href='/main'"> 📚Dev's BOOK📚</h1>
-    <button onclick="Click_bestseller_button()">bestseller</button>
-    <button onclick="Click_front_button()">F.E</button>
-    <button onclick="Click_back_button()">B.E</button>
-    <button onclick="Click_community()">Community</button>
+    <h1><a href="http://localhost:5000"> 📚Dev's BOOK📚</a></h1>
+    <div class="nav-bar">
+        <ul>
+            <li><button onclick="Click_bestseller_button()">bestseller</button></li>
+            <li><button onclick="Click_front_button()">F.E</button></li>
+            <li><button onclick="Click_back_button()">B.E</button></li>
+            <li><button onclick="Click_community()">Community</button></li>
+        </ul>
+    </div>
 </div>
 <div class="middle">
-    <div class="login">
-        <br>
-        <br>
-    </div>
     <div class="book-list">
         <div class="best_box" id="best_box">
             {% for bestseller_book in bestseller_list %}
                 {% set booktitle = bestseller_book['booktitle'] %}
                 {% set price = bestseller_book['price'] %}
                 {% set image = bestseller_book['image'] %}
-                <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card">
-                            <img src={{ image }} class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ booktitle }}</h5>
-                                <p class="card-text">{{ price }}</p>
-                            </div>
+                            <a href="http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=33&range=0&kind=1&orderClick=DCb">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </div>
                 <br>
             {% endfor %}
 
@@ -243,17 +290,17 @@
                 {% set booktitle = front_book['booktitle'] %}
                 {% set price = front_book['price'] %}
                 {% set image = front_book['image'] %}
-                <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card">
-                            <img src={{ image }} class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ booktitle }}</h5>
-                                <p class="card-text">{{ price }}</p>
-                            </div>
+                            <a href="https://search.kyobobook.co.kr/web/search?vPstrKeyWord=react&searchPcondition=1&searchCategory=%EA%B5%AD%EB%82%B4%EB%8F%84%EC%84%9C@KORBOOK@@%EC%BB%B4%ED%93%A8%ED%84%B0/IT@33&collName=KORBOOK&from_CollName=%EC%A0%84%EC%B2%B4@UNION&vPstrTab=PRODUCT&from_coll=KORBOOK&currentPage=1&orderClick=LIZ">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </div>
             {% endfor %}
         </div>
 
@@ -262,17 +309,17 @@
                 {% set booktitle = back_book['booktitle'] %}
                 {% set price = back_book['price'] %}
                 {% set image = back_book['image'] %}
-                <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card">
-                            <img src={{ image }} class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ booktitle }}}</h5>
-                                <p class="card-text">{{ price }}</p>
-                            </div>
+                            <a href="https://search.kyobobook.co.kr/web/search?vPstrKeyWord=spring&searchPcondition=1&searchCategory=%EA%B5%AD%EB%82%B4%EB%8F%84%EC%84%9C@KORBOOK@@%EC%BB%B4%ED%93%A8%ED%84%B0/IT@33&collName=KORBOOK&from_CollName=%EC%A0%84%EC%B2%B4@UNION&searchOrder=0&vPstrTab=PRODUCT&from_coll=KORBOOK&currentPage=1&orderClick=LIZ">
+                                <img src={{ image }} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ booktitle }}}</h5>
+                                    <p class="card-text">{{ price }}</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </div>
             {% endfor %}
         </div>
         <div class="community_box is-hidden" id="community_box">
@@ -282,7 +329,7 @@
             <div class="mybox">
                 <div class="mycomment">
                     <input id="comment" class="form-control" type="text" placeholder="책을 추천해 주세요.">
-                    <button onclick="save_comment()" type="button" class="btn btn-outline-primary">작성</button>
+                    <button onclick="save_comment()" type="button" class="btn btn-outline-success" style="margin-left: 30px;">작성</button>
                 </div>
             </div>
             <div class="mybox" id="comment-list">
